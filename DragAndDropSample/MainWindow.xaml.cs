@@ -22,6 +22,7 @@ namespace DragAndDropSample
     {
         private Point _startPoint;
         private MainWindowViewModel _vm;
+
         public MainWindow()
         {
             _vm = new MainWindowViewModel();
@@ -29,12 +30,12 @@ namespace DragAndDropSample
             this.DataContext = _vm;
         }
 
-        private void UIElement_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _startPoint = e.GetPosition(null);
         }
 
-        private void UIElement_PreviewMouseMove(object sender, MouseEventArgs e)
+        private void OnPreviewMouseMove(object sender, MouseEventArgs e)
         {
             Point mousePos = e.GetPosition(null);
             Vector diff = _startPoint - mousePos;
@@ -45,14 +46,12 @@ namespace DragAndDropSample
             {
                 // Get the dragged ListViewItem
                 ListView listView = sender as ListView;
-                ListViewItem listViewItem =
-                    FindAnchestor<ListViewItem>((DependencyObject) e.OriginalSource);
+                ListViewItem listViewItem = FindAnchestor<ListViewItem>((DependencyObject) e.OriginalSource);
 
                 if (listViewItem == null) return;
 
                 // Find the data behind the ListViewItem
-                ColorElement color = (ColorElement) listView.ItemContainerGenerator.
-                                                            ItemFromContainer(listViewItem);
+                ColorElement color = (ColorElement) listView.ItemContainerGenerator.ItemFromContainer(listViewItem);
 
                 // Initialize the drag & drop operation
                 DataObject dragData = new DataObject("myElement", color);
@@ -66,29 +65,26 @@ namespace DragAndDropSample
             do
             {
                 if (current is T)
-                {
                     return (T)current;
-                }
+
                 current = VisualTreeHelper.GetParent(current);
-            }
-            while (current != null);
+
+            }while (current != null);
 
             return null;
         }
 
-        private void DropList_Drop(object sender, DragEventArgs e)
+        private void OnDropList_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent("myElement"))
             {
                 ColorElement color = e.Data.GetData("myElement") as ColorElement;
-                //ListView listView = sender as ListView;
-                //listView.Items.Add(color?.Value);
                 _vm.TheColorNames.Add(color?.Value);
             }
 
         }
 
-        private void DragList_DragEnter(object sender, DragEventArgs e)
+        private void OnDragList_DragEnter(object sender, DragEventArgs e)
         {
             if (!e.Data.GetDataPresent("myElement") || sender == e.Source)
             {

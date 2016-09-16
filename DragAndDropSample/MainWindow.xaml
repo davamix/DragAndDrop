@@ -8,6 +8,13 @@
         Title="MainWindow" Height="640" Width="480">
     <Window.Resources>
         <local:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+        <Style TargetType="Ellipse" x:Key="EllipseStyle">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Cursor" Value="SizeAll"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -16,8 +23,8 @@
         </Grid.RowDefinitions>
 
         <ListView Grid.Row="0" ItemsSource="{Binding TheColors}"
-                  PreviewMouseLeftButtonDown="UIElement_OnPreviewMouseLeftButtonDown"
-                  PreviewMouseMove="UIElement_PreviewMouseMove">
+                  PreviewMouseLeftButtonDown="OnPreviewMouseLeftButtonDown"
+                  PreviewMouseMove="OnPreviewMouseMove">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation=" Horizontal" />
@@ -25,14 +32,14 @@
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate DataType="local:ColorElement">
-                    <Ellipse Width="50" Height="50" Fill="{Binding Path=FillColor, Converter={StaticResource ColorToBrushConverter}}" />
+                    <Ellipse Width="50" Height="50" Style="{StaticResource EllipseStyle}" Fill="{Binding Path=FillColor, Converter={StaticResource ColorToBrushConverter}}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
         
         <ListView Grid.Row="1"
-                  Drop="DropList_Drop"
-                  DragEnter="DragList_DragEnter"
+                  Drop="OnDropList_Drop"
+                  DragEnter="OnDragList_DragEnter"
                   AllowDrop="True"
                   ItemsSource="{Binding TheColorNames}">
             
