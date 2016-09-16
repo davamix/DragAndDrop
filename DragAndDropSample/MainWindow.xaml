@@ -14,16 +14,10 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <ListView Grid.Row="0" ItemsSource="{Binding TheColors}"
                   PreviewMouseLeftButtonDown="UIElement_OnPreviewMouseLeftButtonDown"
                   PreviewMouseMove="UIElement_PreviewMouseMove">
-            <!--<ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}" />
-                    <GridViewColumn Header="FillColor"/>
-                </GridView>
-            </ListView.View>-->
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation=" Horizontal" />
@@ -32,18 +26,15 @@
             <ListView.ItemTemplate>
                 <DataTemplate DataType="local:ColorElement">
                     <Ellipse Width="50" Height="50" Fill="{Binding Path=FillColor, Converter={StaticResource ColorToBrushConverter}}" />
-                    <!--<TextBlock Text="{Binding Path=Value}" />-->
                 </DataTemplate>
             </ListView.ItemTemplate>
-            <!--<ItemsPanelTemplate>
-                <StackPanel Orientation="Horizontal" />
-            </ItemsPanelTemplate>-->
         </ListView>
         
         <ListView Grid.Row="1"
                   Drop="DropList_Drop"
                   DragEnter="DragList_DragEnter"
-                  AllowDrop="True">
+                  AllowDrop="True"
+                  ItemsSource="{Binding TheColorNames}">
             
         </ListView>
     </Grid>
