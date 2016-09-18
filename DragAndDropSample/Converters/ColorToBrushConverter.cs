@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace DragAndDropSample
+namespace DragAndDropSample.Converters
 {
     public class ColorToBrushConverter :IValueConverter
     {

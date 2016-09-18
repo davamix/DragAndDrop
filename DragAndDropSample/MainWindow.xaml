@@ -4,10 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DragAndDropSample"
+        xmlns:userControls="clr-namespace:DragAndDropSample.UserControls"
+        xmlns:converters="clr-namespace:DragAndDropSample.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="640" Width="480">
     <Window.Resources>
-        <local:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+        <converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
         <Style TargetType="Ellipse" x:Key="EllipseStyle">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -20,6 +22,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <ListView Grid.Row="0" ItemsSource="{Binding TheColors}"
@@ -43,6 +47,18 @@
                   AllowDrop="True"
                   ItemsSource="{Binding TheColorNames}">
             
+        </ListView>
+        
+        <Button Grid.Row="2" Content="Add" Command="{Binding AddElementCommand}" />
+        <ListView Grid.Row="3" ItemsSource="{Binding TheElements}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <userControls:ElementItem Level="{Binding Path=Level}"
+                                              ElementType="{Binding Path=ElementType}"
+                                              DefaultColor="{Binding Path=DefaultColor}"
+                                              DeleteItemCommand="{Binding Path=DataContext.DeleteElementCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
     </Grid>
 </Window>

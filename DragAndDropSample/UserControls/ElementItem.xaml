@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="DragAndDropSample.UserControls.ElementItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DragAndDropSample"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:converters="clr-namespace:DragAndDropSample.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             x:Name="elementItem">
+    <UserControl.Resources>
+        <converters:ColorToHexadecimalConverter x:Key="ColorToHexadecimalConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+            <!--<ItemsControl ItemsSource="Level 1" />-->
+            <TextBlock Grid.Column="0"
+                       Text="{Binding Path=Level, ElementName=elementItem}" />
+            <TextBlock Grid.Column="1" 
+                       Text="{Binding Path=ElementType, ElementName=elementItem}" />
+            <xctk:ColorPicker Grid.Column="2"
+                              DisplayColorAndName="False" 
+                              SelectedColor="{Binding Path=DefaultColor, ElementName=elementItem, Converter={StaticResource ColorToHexadecimalConverter}}" />
+            <Button Grid.Column="3" 
+                    Command="{Binding Path=DeleteItemCommand, ElementName=elementItem}">
+                <Image Source="../Resources/Icons/bullet_delete.png" />
+            </Button>
+        
+    </Grid>
+</UserControl>
